@@ -57,6 +57,11 @@ int MyTab::getIndex()
     return index_Tab;
 }
 
+QString MyTab::getName()
+{
+    return tab_Matrix.getName();
+}
+
 QSize MyTab::sizeHint() const
 {
     return QSize(300,300);

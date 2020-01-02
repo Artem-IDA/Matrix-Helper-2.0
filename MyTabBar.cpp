@@ -49,7 +49,8 @@ void MyTabBar::_addNewTab(QString name, int height, int width)
 
     connect(closeButton,SIGNAL(clicked()),this,SLOT(_closeTab()));
 
-    Stack->addWidget(new MyTab(tempIndex,height,width,name,this));
+    indexVector.push_back(Stack->addWidget(new MyTab(tempIndex,height,width,name,this)));
+    matrixNames.push_back(name);
 
     TabBar->blockSignals(false);
 }
@@ -57,4 +58,9 @@ void MyTabBar::_addNewTab(QString name, int height, int width)
 void MyTabBar::_currentChanged(int index)
 {
     Stack->setCurrentIndex(index);
+}
+
+void MyTabBar::_queryMatrixNames()
+{
+    emit _sendAllMatrixNames(matrixNames);
 }

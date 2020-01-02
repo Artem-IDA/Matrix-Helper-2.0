@@ -26,7 +26,6 @@ signals:
     void _tabCreated(QString name, int height, int width);
 public slots:
     void _addingNewTab();
-    void _catchSelectWithTB();
 };
 
 #endif // MAINWINDOW_H

@@ -16,6 +16,7 @@ public:
     void swapM_Widgets();
 
     int getIndex();
+    QString getName();
 
     QSize sizeHint() const;
 private:

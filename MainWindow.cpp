@@ -32,8 +32,11 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     connect(this,SIGNAL(_tabCreated(QString,int,int)),
             TabBar,SLOT(_addNewTab(QString,int,int)));
 
-    connect(ToolBox,SIGNAL(_sendRequestToLogic()),
-            this,SLOT(_catchSelectWithTB()));
+    connect(ToolBox,SIGNAL(_requestMatrixNames()),
+            TabBar,SLOT(_queryMatrixNames()));
+
+    connect(TabBar,SIGNAL(_sendAllMatrixNames(QVector<QString>)),
+            ToolBox,SLOT(_catchMatrixNames(QVector<QString>)));
 }
 
 void MainWindow::_addingNewTab()
@@ -45,24 +48,3 @@ void MainWindow::_addingNewTab()
     emit _tabCreated(newTabDialog->getText(),newTabDialog->getHeight(),newTabDialog->getWidth());
 }
 
-void MainWindow::_catchSelectWithTB()
-{
-    QString nameOfAction = sender()->objectName();
-
-    if(nameOfAction == "ADDITION")
-    {
-
-    }
-    else if(nameOfAction == "SUBTRACTION")
-    {
-
-    }
-    else if(nameOfAction == "MULTIPLICATION")
-    {
-
-    }
-    else if(nameOfAction == "DIVISION")
-    {
-
-    }
-}
