@@ -11,27 +11,37 @@ MyToolBox::MyToolBox(QWidget *parent) : QWidget(parent)
     QWidget *page2 = new QWidget;
     QWidget *page3 = new QWidget;
 
-    QVector<QString> textPage1 = {"ADDITION","SUBTRACTION", "MULTIPLICATION", "DIVISION"};
-    QVector<QString> textPage2 = {};
+    QVector<QString> textPage1 = {"+C","-C","*C","/C"};
+    QVector<QString> textPage2 = {"+A{}","-A{}","*A{}","/A{}"};
     QVector<QString> textPage3 = {};
 
-    QVBoxLayout *layPage1 = new QVBoxLayout;
-    QVBoxLayout *layPage2 = new QVBoxLayout;
-    QVBoxLayout *layPage3 = new QVBoxLayout;
+    QGridLayout *layPage1 = new QGridLayout;
+    QGridLayout *layPage2 = new QGridLayout;
+    QGridLayout *layPage3 = new QGridLayout;
 
-    for (int i = 0;i < textPage1.size(); i++) {
-        QPushButton *temp = new QPushButton(textPage1[i]);
-        temp->setObjectName(textPage1[i]+"_UNARY");
-        connect(temp,SIGNAL(clicked()),this, SIGNAL(_sendRequestToLogic()));
-        layPage1->addWidget(temp);
+    for (int i = 0;i < 2; i++) {
+        for (int j = 0; j < 2; j++) {
+            QPushButton *temp = new QPushButton(textPage1[i]);
+            temp->setFixedSize(40,40);
+            temp->setObjectName(textPage1[i]+"_UNARY");
+            connect(temp,SIGNAL(clicked()),this, SIGNAL(_sendRequestToLogic()));
+            layPage1->setSpacing(0);
+            layPage1->setMargin(0);
+            layPage1->addWidget(temp,i,j);
+        }
     }
     page1->setLayout(layPage1);
 
-    for (int i = 0;i < textPage2.size(); i++) {
-        QPushButton *temp = new QPushButton;
-        temp->setObjectName(textPage2[i]+"_BINARY");
-        connect(temp,SIGNAL(clicked()),this, SIGNAL(_sendRequestToLogic()));
-        layPage2->addWidget(temp);
+    for (int i = 0;i < 2; i++) {
+        for (int j = 0; j < 2; j++) {
+            QPushButton *temp = new QPushButton(textPage2[i]);
+            temp->setFixedSize(40,40);
+            temp->setObjectName(textPage2[i]+"_BINARY");
+            connect(temp,SIGNAL(clicked()),this, SIGNAL(_sendRequestToLogic()));
+            layPage2->setSpacing(0);
+            layPage2->setMargin(0);
+            layPage2->addWidget(temp,i,j);
+        }
     }
     page2->setLayout(layPage2);
 
