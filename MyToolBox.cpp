@@ -14,6 +14,7 @@ MyToolBox::MyToolBox(QWidget *parent) : QWidget(parent)
     QVector<QString> textPage1 = {"+C","-C","*C","/C"};
     QVector<QString> textPage2 = {"+A{}","-A{}","*A{}","/A{}"};
     QVector<QString> textPage3 = {};
+    int counter = 0;
 
     QGridLayout *layPage1 = new QGridLayout;
     QGridLayout *layPage2 = new QGridLayout;
@@ -38,15 +39,17 @@ MyToolBox::MyToolBox(QWidget *parent) : QWidget(parent)
 
     layPage1->addWidget(C_number,2,0,1,0);
     layPage1->addWidget(ok_unary,3,0,1,0);
+
     for (int i = 0;i < 2; i++) {
         for (int j = 0; j < 2; j++) {
-            QPushButton *temp = new QPushButton(textPage1[i]);
+            QPushButton *temp = new QPushButton(textPage1[counter]);
             temp->setFixedSize(40,40);
-            temp->setObjectName(textPage1[i]+"_UNARY");
+            temp->setObjectName(textPage1[counter]+"_UNARY");
             connect(temp,SIGNAL(clicked()),this, SLOT(_catchCurrentOperation()));
             layPage1->setSpacing(0);
             layPage1->setMargin(0);
             layPage1->addWidget(temp,i,j);
+            counter++;
         }
     }
     page1->setLayout(layPage1);
@@ -69,24 +72,29 @@ MyToolBox::MyToolBox(QWidget *parent) : QWidget(parent)
 
     layPage2->addWidget(List_names,2,0,1,0);
     layPage2->addWidget(ok_binary,3,0,1,0);
+
+    counter = 0;
     for (int i = 0;i < 2; i++) {
         for (int j = 0; j < 2; j++) {
-            QPushButton *temp = new QPushButton(textPage2[i]);
+            QPushButton *temp = new QPushButton(textPage2[counter]);
             temp->setFixedSize(40,40);
-            temp->setObjectName(textPage2[i]+"_BINARY");
+            temp->setObjectName(textPage2[counter]+"_BINARY");
             connect(temp,SIGNAL(clicked()),this, SLOT(_catchCurrentOperation()));
             layPage2->setSpacing(0);
             layPage2->setMargin(0);
             layPage2->addWidget(temp,i,j);
+            counter++;
         }
     }
     page2->setLayout(layPage2);
 
+    counter = 0;
     for (int i = 0;i < textPage3.size(); i++) {
         QPushButton *temp = new QPushButton;
-        temp->setObjectName(textPage3[i]);
+        temp->setObjectName(textPage3[counter]);
         connect(temp,SIGNAL(clicked()),this, SLOT(_catchCurrentOperation()));
         layPage3->addWidget(temp);
+        counter++;
     }
     page3->setLayout(layPage3);
 
@@ -112,6 +120,11 @@ void MyToolBox::_catchMatrixNames(QVector<QString> names)
     List_names->addItems(names.toList());
 }
 
+void MyToolBox::_catchActiveMatrixName(QString name)
+{
+    lastActiveMatrix = name;
+}
+
 void MyToolBox::_catchCurrentOperation()
 {
     if(sender()->objectName().split("_")[1] == "UNARY")
@@ -134,23 +147,25 @@ void MyToolBox::_catchCurrentValue(int value)
     lastChangedValue = value;
 }
 
-void MyToolBox::_catchCurrentMatrix(const QString &name)
+void MyToolBox::_catchCurrentMatrix(QString name)
 {
-    lastChangedMatrix = name;
+    lastChangedSecondMatrix = name;
 }
 
 void MyToolBox::_okClicked()
 {
     if(sender()->objectName().split("_")[1] == "UNARY")
     {
-        emit _requestUnaryOperation(lastChangedOperation,lastChangedValue);
+        emit _requestActiveMatrixName();
+        emit _requestUnaryOperation(lastActiveMatrix,lastChangedOperation,lastChangedValue);
         C_number->setDisabled(true);
         C_number->setValue(0);
         ok_unary->setDisabled(true);
     }
     else if(sender()->objectName().split("_")[1] == "BINARY")
     {
-        emit _requestBinaryOperation(lastChangedOperation,lastChangedMatrix);
+        emit _requestActiveMatrixName();
+        emit _requestBinaryOperation(lastActiveMatrix,lastChangedOperation,lastChangedSecondMatrix);
         List_names->setDisabled(true);
         emit _cleanComboBox();
         List_names->addItem("Change matrix");

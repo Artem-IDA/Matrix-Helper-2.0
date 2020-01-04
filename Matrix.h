@@ -19,6 +19,10 @@ public:
     int getWidth();
 
     Matrix & operator = (const Matrix second_Matrix);
+    Matrix & operator + (int value);
+    Matrix & operator - (int value);
+    Matrix & operator * (int value);
+    Matrix & operator / (int value);
     bool operator == (const Matrix second_Matrix);
     bool operator != (const Matrix second_Matrix);
     QVector<int>& operator [] (int index);

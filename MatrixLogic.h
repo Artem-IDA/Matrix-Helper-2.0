@@ -11,20 +11,18 @@ class MatrixLogic : public QObject
 public:
     explicit MatrixLogic(QObject *parent = nullptr);
 private:
-    void calculateADDITION();
-    void calculateSUBTRACTION();
-    void calculateMULTIPLICATION();
-    void calculateDIVISION();
-
-
     Matrix gettingMatrix_1;
     Matrix gettingMatrix_2;
+    Matrix resultMatrix;
 signals:
-    void _sendLMatrix(QVector <QVector<int>> Matrix, int height, int width);
+    void _requestFirstMatrix(QString name);
+    void _requestSecondMatrix(QString name);
+    void _sendResultMatrix(Matrix);
 public slots:
-    void _selectMenu();
-    void _gettingMatrix(Matrix matrix);
-    void _getting2Matrix(Matrix first, Matrix second);
+    void _queryUnaryOperation(QString nameFirstMatrix, QString operation, int value);
+    void _queryBinaryOperation(QString nameFirstMatrix, QString operation, QString nameSecondMatrix);
+    void _catchFirstMatrix(Matrix matrix);
+    void _catchSecondMatrix(Matrix matrix);
 };
 
 

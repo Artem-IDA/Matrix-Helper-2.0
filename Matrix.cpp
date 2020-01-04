@@ -75,6 +75,55 @@ Matrix & Matrix::operator = (const Matrix second_Matrix)
     return *this;
 }
 
+Matrix &Matrix::operator +(int value)
+{
+    for(int i = 0; i < m_Matrix.size(); i++)
+    {
+        for(int j = 0; j < m_Matrix[i].size(); j++)
+        {
+            m_Matrix[i][j]+=value;
+        }
+    }
+    return *this;
+}
+Matrix &Matrix::operator -(int value)
+{
+    for(int i = 0; i < m_Matrix.size(); i++)
+    {
+        for(int j = 0; j < m_Matrix[i].size(); j++)
+        {
+            m_Matrix[i][j]-=value;
+        }
+    }
+    return *this;
+}
+Matrix &Matrix::operator *(int value)
+{
+    for(int i = 0; i < m_Matrix.size(); i++)
+    {
+        for(int j = 0; j < m_Matrix[i].size(); j++)
+        {
+            m_Matrix[i][j]*=value;
+        }
+    }
+    return *this;
+}
+
+Matrix &Matrix::operator /(int value)
+{
+    if(value != 0)
+    {
+        for(int i = 0; i < m_Matrix.size(); i++)
+        {
+            for(int j = 0; j < m_Matrix[i].size(); j++)
+            {
+                m_Matrix[i][j]/=value;
+            }
+        }
+    }
+    return *this;
+}
+
 bool Matrix::operator ==(const Matrix second_Matrix)
 {
      if(m_name == second_Matrix.m_name &&

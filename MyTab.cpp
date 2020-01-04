@@ -16,7 +16,7 @@ MyTab::MyTab(int index, int height_matrix, int width_matrix, QString name_matrix
     connect(matInWidget,SIGNAL(_sendMatrix(Matrix)),
             matDisWidget,SLOT(_updateMatrix(Matrix)));
     connect(matInWidget,SIGNAL(_sendMatrix(Matrix)),
-            this,SLOT(_getMatrix(Matrix)));
+            this,SLOT(_catchMatrix(Matrix)));
 
     //                  this
     //                   |↑
@@ -30,11 +30,6 @@ MyTab::MyTab(int index, int height_matrix, int width_matrix, QString name_matrix
 
     setLayout(mainLay);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-}
-
-void MyTab::changeMatrix(Matrix changedMatrix)
-{
-    tab_Matrix = changedMatrix;
 }
 
 void MyTab::swapM_Widgets()
@@ -52,6 +47,17 @@ void MyTab::swapM_Widgets()
     swapCount++;
 }
 
+void MyTab::setNewMatrix(Matrix newMatrix)
+{
+    tab_Matrix = newMatrix;
+    emit _sendMatrix(tab_Matrix);
+}
+
+Matrix MyTab::getMatrix()
+{
+    return tab_Matrix;
+}
+
 int MyTab::getIndex()
 {
     return index_Tab;
@@ -67,7 +73,7 @@ QSize MyTab::sizeHint() const
     return QSize(300,300);
 }
 
-void MyTab::_getMatrix(Matrix new_Matrix)
+void MyTab::_catchMatrix(Matrix new_Matrix)
 {
     if(new_Matrix != tab_Matrix)
     {

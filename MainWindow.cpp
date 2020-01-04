@@ -34,9 +34,32 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
 
     connect(ToolBox,SIGNAL(_requestMatrixNames()),
             TabBar,SLOT(_queryMatrixNames()));
-
     connect(TabBar,SIGNAL(_sendAllMatrixNames(QVector<QString>)),
             ToolBox,SLOT(_catchMatrixNames(QVector<QString>)));
+
+    connect(ToolBox,SIGNAL(_requestActiveMatrixName()),
+            TabBar,SLOT(_queryActiveMatrixName()));
+    connect(TabBar,SIGNAL(_sendActiveMatrixName(QString)),
+            ToolBox,SLOT(_catchActiveMatrixName(QString)));
+
+    connect(ToolBox,SIGNAL(_requestUnaryOperation(QString, QString, int)),
+            Logic,SLOT(_queryUnaryOperation(QString, QString, int)));
+
+    connect(ToolBox,SIGNAL(_requestBinaryOperation(QString, QString, QString)),
+            Logic,SLOT(_queryBinaryOperation(QString, QString, QString)));
+
+    connect(Logic,SIGNAL(_requestFirstMatrix(QString)),
+            TabBar,SLOT(_queryMatrix(QString)));
+    connect(TabBar,SIGNAL(_sendMatrix(Matrix)),
+            Logic,SLOT(_catchFirstMatrix(Matrix)));
+
+    connect(Logic,SIGNAL(_requestSecondMatrix(QString)),
+            TabBar,SLOT(_queryMatrix(QString)));
+    connect(TabBar,SIGNAL(_sendMatrix(Matrix)),
+            Logic,SLOT(_catchSecondMatrix(Matrix)));
+
+    connect(Logic,SIGNAL(_sendResultMatrix(Matrix)),
+            TabBar,SLOT(_catchResultMatrix(Matrix)));
 }
 
 void MainWindow::_addingNewTab()

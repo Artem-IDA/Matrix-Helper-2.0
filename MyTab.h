@@ -12,9 +12,11 @@ class MyTab : public QWidget
     Q_OBJECT
 public:
     MyTab(int index, int height_matrix, int width_matrix, QString name_matrix, QWidget *parent = nullptr);
-    void changeMatrix(Matrix changedMatrix);
     void swapM_Widgets();
 
+    void setNewMatrix(Matrix newMatrix);
+
+    Matrix getMatrix();
     int getIndex();
     QString getName();
 
@@ -29,7 +31,7 @@ private:
 signals:
     void _sendMatrix(Matrix tab_matrix);
 public slots:
-    void _getMatrix(Matrix tab_matrix);
+    void _catchMatrix(Matrix tab_matrix);
 };
 
 #endif // MYTAB_H

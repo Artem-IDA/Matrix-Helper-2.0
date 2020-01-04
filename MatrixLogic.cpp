@@ -5,39 +5,65 @@ MatrixLogic::MatrixLogic(QObject *parent) : QObject(parent)
 
 }
 
-void MatrixLogic::calculateADDITION()
+void MatrixLogic::_queryUnaryOperation(QString nameFirstMatrix, QString operation, int value)
 {
-
+    emit _requestFirstMatrix(nameFirstMatrix);
+    if(operation == "+C_UNARY")
+    {
+        resultMatrix = gettingMatrix_1 + value;
+        emit _sendResultMatrix(resultMatrix);
+    }
+    else if(operation == "-C_UNARY")
+    {
+        resultMatrix = gettingMatrix_1 - value;
+        emit _sendResultMatrix(resultMatrix);
+    }
+    else if(operation == "*C_UNARY")
+    {
+        resultMatrix = gettingMatrix_1 * value;
+        emit _sendResultMatrix(resultMatrix);
+    }
+    else if(operation == "/C_UNARY")
+    {
+        resultMatrix = gettingMatrix_1 / value;
+        emit _sendResultMatrix(resultMatrix);
+    }
 }
 
-void MatrixLogic::calculateSUBTRACTION()
+void MatrixLogic::_queryBinaryOperation(QString nameFirstMatrix, QString operation, QString nameSecondMatrix)
 {
+    emit _requestFirstMatrix(nameFirstMatrix);
+    emit _requestSecondMatrix(nameSecondMatrix);
+    if(operation == "+A{}_BINARY")
+    {
 
+        emit _sendResultMatrix(resultMatrix);
+    }
+    else if(operation == "-A{}_BINARY")
+    {
+
+        emit _sendResultMatrix(resultMatrix);
+    }
+    else if(operation == "*A{}_BINARY")
+    {
+
+        emit _sendResultMatrix(resultMatrix);
+    }
+    else if(operation == "/A{}_BINARY")
+    {
+
+        emit _sendResultMatrix(resultMatrix);
+    }
 }
 
-void MatrixLogic::calculateMULTIPLICATION()
-{
-
-}
-
-void MatrixLogic::calculateDIVISION()
-{
-
-}
-
-void MatrixLogic::_selectMenu()
-{
-    QString action = sender()->objectName();
-}
-
-void MatrixLogic::_getting2Matrix(Matrix first, Matrix second)
-{
-    gettingMatrix_1 = first;
-    gettingMatrix_1 = second;
-}
-void MatrixLogic::_gettingMatrix(Matrix matrix)
+void MatrixLogic::_catchFirstMatrix(Matrix matrix)
 {
     gettingMatrix_1 = matrix;
+}
+
+void MatrixLogic::_catchSecondMatrix(Matrix matrix)
+{
+    gettingMatrix_2 = matrix;
 }
 
 
