@@ -8,9 +8,13 @@ MyTabBar::MyTabBar(QWidget *parent) : QWidget(parent)
     QGridLayout *mainLay = new QGridLayout;
 
     addButton = new QPushButton("+");
+    TabBar->setTabsClosable(true);
 
     connect(addButton,SIGNAL(clicked()),SIGNAL(_sendAddSig()));
     connect(TabBar,SIGNAL(currentChanged(int)),SLOT(_currentChanged(int)));
+
+    connect(TabBar,SIGNAL(tabCloseRequested(int)),
+            this,SLOT(_closeTab(int)));
 
     addButton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
     addButton->setFixedSize(24,24);
@@ -40,17 +44,17 @@ void MyTabBar::_catchResultMatrix(Matrix newMatrix)
     }
 }
 
-void MyTabBar::_closeTab()
+void MyTabBar::_closeTab(int index)
 {
-    TabBar->removeTab(sender()->objectName().toInt());
-    for (int i = 0; i < matrixNames.size(); i ++)
+    TabBar->removeTab(index);
+    for (int i = 0; i < matrixNames.size(); i++)
     {
-        if(matrixNames[i] == Stack->widget(sender()->objectName().toInt())->objectName())
+        if(matrixNames[i] == Stack->widget(index)->objectName())
             matrixNames.remove(i);
     }
-    for (int i = 0; i < tabPointers.size(); i ++)
+    for (int i = 0; i < tabPointers.size(); i++)
     {
-        if(tabPointers[i] == Stack->widget(sender()->objectName().toInt()))
+        if(tabPointers[i] == Stack->widget(index))
             tabPointers.remove(i);
     }
     Stack->removeWidget(Stack->widget(sender()->objectName().toInt()));
@@ -61,13 +65,14 @@ void MyTabBar::_addNewTab(QString name, int height, int width)
     TabBar->blockSignals(true);
 
     int tempIndex=TabBar->addTab(name);
-    QPushButton *closeButton = new QPushButton("x");
+    /*QPushButton *closeButton = new QPushButton("x");
     closeButton->setObjectName(QString::number(tempIndex));
     closeButton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
     closeButton->setFixedSize(15,15);
-    TabBar->setTabButton(tempIndex,QTabBar::RightSide,closeButton);
+    TabBar->setTabButton(tempIndex,QTabBar::RightSide,closeButton);*/
 
-    connect(closeButton,SIGNAL(clicked()),this,SLOT(_closeTab()));
+
+
 
     MyTab* tempTab = new MyTab(tempIndex,height,width,name,this);
     tempTab->setObjectName(name);
@@ -83,12 +88,22 @@ void MyTabBar::_currentChanged(int index)
     Stack->setCurrentIndex(index);
 }
 
-void MyTabBar::_queryMatrix(QString name)
+void MyTabBar::_queryFirstMatrix(QString name)
 {
     for (int i = 0;i < tabPointers.size(); i++) {
-        if(tabPointers[i]->getName() == name)
+        if(tabPointers[i]->objectName() == name)
         {
-            emit _sendMatrix(tabPointers[i]->getMatrix());
+            emit _sendFirstMatrix(tabPointers[i]->getMatrix());
+        }
+    }
+}
+
+void MyTabBar::_querySecondMatrix(QString name)
+{
+    for (int i = 0;i < tabPointers.size(); i++) {
+        if(tabPointers[i]->objectName() == name)
+        {
+            emit _sendSecondMatrix(tabPointers[i]->getMatrix());
         }
     }
 }

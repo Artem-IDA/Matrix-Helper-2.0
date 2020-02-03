@@ -22,7 +22,9 @@ public:
     Matrix & operator + (int value);
     Matrix & operator - (int value);
     Matrix & operator * (int value);
-    Matrix & operator / (int value);
+    Matrix & operator + (const Matrix second_Matrix);
+    Matrix & operator - (const Matrix second_Matrix);
+    Matrix & operator * (const Matrix second_Matrix);
     bool operator == (const Matrix second_Matrix);
     bool operator != (const Matrix second_Matrix);
     QVector<int>& operator [] (int index);

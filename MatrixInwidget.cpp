@@ -55,7 +55,7 @@ void MatrixInWidget::resizeWidget(Matrix new_Matrix)
     for(int i = 0; i < new_Matrix.getHeight(); i++){
         QVector <QSpinBox*> temp_vec_spBox;
         for (int j = 0; j < new_Matrix.getWidth(); j++) {
-            QString name = QString(i) + '.' + QString(j);
+            QString name = QString::number(i) + '.' + QString::number(j);
             QSpinBox* temp_sp = new QSpinBox;
             temp_sp->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             temp_sp->setAlignment(Qt::AlignCenter);
@@ -68,7 +68,7 @@ void MatrixInWidget::resizeWidget(Matrix new_Matrix)
             temp_sp->resize(50,50);
             temp_sp->setWindowFlag(Qt::ToolTip);
             temp_vec_spBox.push_back(temp_sp);
-            connect(temp_sp,SIGNAL(valueChanged(int)),this,SLOT(_valueChanged(int)));
+            connect(temp_sp,SIGNAL(valueChanged(int)),this,SLOT(_valuesChanged(int)));
 
             mainLayout->addWidget(temp_sp,i,j);
         }

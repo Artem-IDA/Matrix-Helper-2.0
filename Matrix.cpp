@@ -109,17 +109,56 @@ Matrix &Matrix::operator *(int value)
     return *this;
 }
 
-Matrix &Matrix::operator /(int value)
+Matrix &Matrix::operator +(Matrix second_Matrix)
 {
-    if(value != 0)
+    if(m_width == second_Matrix.m_width && m_height == second_Matrix.m_height)
     {
-        for(int i = 0; i < m_Matrix.size(); i++)
+        for(int i = 0; i < m_height; i++)
         {
-            for(int j = 0; j < m_Matrix[i].size(); j++)
+            for(int j = 0; j < m_width; j++)
             {
-                m_Matrix[i][j]/=value;
+                m_Matrix[i][j] += second_Matrix.m_Matrix[i][j];
             }
         }
+    }
+    return *this;
+}
+
+Matrix &Matrix::operator -(Matrix second_Matrix)
+{
+    if(m_width == second_Matrix.m_width && m_height == second_Matrix.m_height)
+    {
+        for(int i = 0; i < m_height; i++)
+        {
+            for(int j = 0; j < m_width; j++)
+            {
+                m_Matrix[i][j] -= second_Matrix.m_Matrix[i][j];
+            }
+        }
+    }
+    return *this;
+}
+
+Matrix &Matrix::operator *(Matrix second_Matrix)
+{
+    QVector<QVector<int>> temp_m;
+    if(m_width == second_Matrix.m_height)
+    {
+        for(int i = 0; i < m_height; i++)
+        {
+            QVector<int> temp_vec;
+            for(int j = 0; j < second_Matrix.m_width; j++)
+            {
+                for (int k = 0; k < m_width; k++)
+                {
+                    temp_vec.push_back(m_Matrix[i][k] * second_Matrix.m_Matrix[k][j]);
+                }
+            }
+            temp_m.push_back(temp_vec);
+        }
+        m_Matrix = temp_m;
+        m_height = m_Matrix[0].size();
+        m_width = m_Matrix.size();
     }
     return *this;
 }
@@ -150,6 +189,5 @@ QVector<int> &Matrix::operator [](int index)
 {
     return m_Matrix[index];
 }
-
 
 

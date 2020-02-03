@@ -6,7 +6,8 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     MatrixLogic *Logic = new MatrixLogic(this);
     MyTabBar *TabBar = new MyTabBar(this);
     MyToolBox *ToolBox = new MyToolBox(this);
-    emptyTab = new QLabel(this);
+    emptyTab = new QLabel("Add new tab",this);
+    emptyTab->setAlignment(Qt::AlignCenter);
 
     QMenuBar *MenuBar = new QMenuBar(this);
     QMenu *file = new QMenu("File",MenuBar);
@@ -49,13 +50,13 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
             Logic,SLOT(_queryBinaryOperation(QString, QString, QString)));
 
     connect(Logic,SIGNAL(_requestFirstMatrix(QString)),
-            TabBar,SLOT(_queryMatrix(QString)));
-    connect(TabBar,SIGNAL(_sendMatrix(Matrix)),
+            TabBar,SLOT(_queryFirstMatrix(QString)));
+    connect(TabBar,SIGNAL(_sendFirstMatrix(Matrix)),
             Logic,SLOT(_catchFirstMatrix(Matrix)));
 
     connect(Logic,SIGNAL(_requestSecondMatrix(QString)),
-            TabBar,SLOT(_queryMatrix(QString)));
-    connect(TabBar,SIGNAL(_sendMatrix(Matrix)),
+            TabBar,SLOT(_querySecondMatrix(QString)));
+    connect(TabBar,SIGNAL(_sendSecondMatrix(Matrix)),
             Logic,SLOT(_catchSecondMatrix(Matrix)));
 
     connect(Logic,SIGNAL(_sendResultMatrix(Matrix)),
