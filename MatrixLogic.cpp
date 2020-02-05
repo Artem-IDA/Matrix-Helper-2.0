@@ -23,6 +23,10 @@ void MatrixLogic::_queryUnaryOperation(QString nameFirstMatrix, QString operatio
         resultMatrix = gettingMatrix_1 * value;
         emit _sendResultMatrix(resultMatrix);
     }
+    else if (operation == "^C_UNARY") {
+        resultMatrix = gettingMatrix_1 ^ value;
+        emit _sendResultMatrix(resultMatrix);
+    }
 }
 
 void MatrixLogic::_queryBinaryOperation(QString nameFirstMatrix, QString operation, QString nameSecondMatrix)

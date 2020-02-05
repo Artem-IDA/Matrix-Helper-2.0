@@ -11,7 +11,7 @@ MyToolBox::MyToolBox(QWidget *parent) : QWidget(parent)
     QWidget *page2 = new QWidget;
     QWidget *page3 = new QWidget;
 
-    QVector<QString> textPage1 = {"+C","-C","*C"};
+    QVector<QString> textPage1 = {"+C","-C","*C","^C"};
     QVector<QString> textPage2 = {"+A{}","-A{}","*A{}"};
     QVector<QString> textPage3 = {};
     int counter = 0;
@@ -40,23 +40,19 @@ MyToolBox::MyToolBox(QWidget *parent) : QWidget(parent)
     layPage1->addWidget(C_number,2,0,1,0);
     layPage1->addWidget(ok_unary,3,0,1,0);
 
-    for (int i = 0;i < 3; i++) {
-        QPushButton *temp = new QPushButton(textPage1[counter]);
-        temp->setObjectName(textPage1[counter]+"_UNARY");
-        connect(temp,SIGNAL(clicked()),this, SLOT(_catchCurrentOperation()));
-        layPage1->setSpacing(0);
-        layPage1->setMargin(0);
-        if(i != 2)
-        {
+    for (int i = 0;i < 2; i++) {
+        for (int j = 0; j < 2; j++) {
+            QPushButton *temp = new QPushButton(textPage1[counter]);
+            temp->setObjectName(textPage1[counter]+"_UNARY");
+            connect(temp,SIGNAL(clicked()),this, SLOT(_catchCurrentOperation()));
+            layPage1->setSpacing(0);
+            layPage1->setMargin(0);
+
             temp->setFixedSize(40,40);
-            layPage1->addWidget(temp,i,0);
+            layPage1->addWidget(temp,i,j);
+
+            counter++;
         }
-        else if(i == 2)
-        {
-            temp->setFixedSize(40,80);
-            layPage1->addWidget(temp,0,1,2,1);
-        }
-        counter++;
     }
     page1->setLayout(layPage1);
 

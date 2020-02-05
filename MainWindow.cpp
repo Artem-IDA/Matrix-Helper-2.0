@@ -1,6 +1,8 @@
 #include "MainWindow.h"
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
 {
+    setWindowFlags(Qt::Window|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint);
+    setWindowTitle("MatrixHelper 2.0");
     newTabDialog = new NewTabDialog(this);
 
     MatrixLogic *Logic = new MatrixLogic(this);
@@ -66,9 +68,10 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
 void MainWindow::_addingNewTab()
 {
     Matrix temp;
-    newTabDialog->exec();
-
     emptyTab->hide();
+
+    newTabDialog->exec();
+    if(newTabDialog->result() != 0)
     emit _tabCreated(newTabDialog->getText(),newTabDialog->getHeight(),newTabDialog->getWidth());
 }
 

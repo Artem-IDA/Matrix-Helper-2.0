@@ -22,6 +22,7 @@ public:
     Matrix & operator + (int value);
     Matrix & operator - (int value);
     Matrix & operator * (int value);
+    Matrix & operator ^ (int value);
     Matrix & operator + (const Matrix second_Matrix);
     Matrix & operator - (const Matrix second_Matrix);
     Matrix & operator * (const Matrix second_Matrix);

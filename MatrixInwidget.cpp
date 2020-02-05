@@ -7,13 +7,15 @@ MatrixInWidget::MatrixInWidget(Matrix start_matrix, QWidget *parent) : QWidget(p
     height_widget = start_matrix.getHeight();
 
     mainLayout = new QGridLayout();
+    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    setMaximumHeight(100);
 
     for(int i = 0; i < start_matrix.getHeight(); i++){
         QVector <QSpinBox*> temp_vec_spBox;
         for (int j = 0; j < start_matrix.getWidth(); j++) {
             QString name = QString::number(i) + '.' + QString::number(j);
             QSpinBox* temp_sp = new QSpinBox;
-            temp_sp->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            temp_sp->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
             temp_sp->setAlignment(Qt::AlignCenter);
             /*QFont font = temp_sp->font();
             font.setPixelSize(40);
@@ -21,7 +23,8 @@ MatrixInWidget::MatrixInWidget(Matrix start_matrix, QWidget *parent) : QWidget(p
             temp_sp->setObjectName(name);
             temp_sp->setRange(0,99);
             temp_sp->setWrapping(true);
-            temp_sp->resize(50,50);
+            temp_sp->setMaximumHeight(100);
+            //temp_sp->resize(50,50);
             temp_sp->setWindowFlag(Qt::ToolTip);
             temp_vec_spBox.push_back(temp_sp);
             connect(temp_sp,SIGNAL(valueChanged(int)),this,SLOT(_valuesChanged(int)));
@@ -35,7 +38,7 @@ MatrixInWidget::MatrixInWidget(Matrix start_matrix, QWidget *parent) : QWidget(p
     mainLayout->setSpacing(0);
     mainLayout->setMargin(0);
     setLayout(mainLayout);
-    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
 }
 
 void MatrixInWidget::resizeWidget(Matrix new_Matrix)
@@ -51,13 +54,16 @@ void MatrixInWidget::resizeWidget(Matrix new_Matrix)
     height_widget = new_Matrix.getHeight();
     width_widget = new_Matrix.getWidth();
 
-    QGridLayout* mainLayout = new QGridLayout();
+    delete mainLayout;
+    mainLayout = new QGridLayout();
+    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    setMaximumHeight(100);
     for(int i = 0; i < new_Matrix.getHeight(); i++){
         QVector <QSpinBox*> temp_vec_spBox;
         for (int j = 0; j < new_Matrix.getWidth(); j++) {
             QString name = QString::number(i) + '.' + QString::number(j);
             QSpinBox* temp_sp = new QSpinBox;
-            temp_sp->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            temp_sp->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
             temp_sp->setAlignment(Qt::AlignCenter);
             /*QFont font = temp_sp->font();
             font.setPixelSize(10);
@@ -65,7 +71,8 @@ void MatrixInWidget::resizeWidget(Matrix new_Matrix)
             temp_sp->setObjectName(name);
             temp_sp->setRange(0,99);
             temp_sp->setWrapping(true);
-            temp_sp->resize(50,50);
+            temp_sp->setMaximumHeight(100);
+            //temp_sp->resize(50,50);
             temp_sp->setWindowFlag(Qt::ToolTip);
             temp_vec_spBox.push_back(temp_sp);
             connect(temp_sp,SIGNAL(valueChanged(int)),this,SLOT(_valuesChanged(int)));
@@ -76,7 +83,9 @@ void MatrixInWidget::resizeWidget(Matrix new_Matrix)
     }
 
     mainLayout->setSpacing(0);
+    mainLayout->setMargin(0);
     setLayout(mainLayout);
+
 }
 
 QSize MatrixInWidget::sizeHint() const
@@ -97,9 +106,10 @@ void MatrixInWidget::_updateMatrix(Matrix new_Matrix)
 {
     if(new_Matrix != In_matrix)
     {
-        if(new_Matrix.getHeight() != height_widget && new_Matrix.getWidth() != width_widget)
+        if(new_Matrix.getHeight() != height_widget || new_Matrix.getWidth() != width_widget)
         {
             resizeWidget(new_Matrix);
+            In_matrix = new_Matrix;
             updateState();
         }
         else

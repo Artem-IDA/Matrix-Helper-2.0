@@ -6,16 +6,20 @@ MatrixDisplayWidget::MatrixDisplayWidget(Matrix dis_Matrix ,QWidget *parent) : Q
     width_widget = dis_Matrix.getWidth();
     height_widget = dis_Matrix.getHeight();
 
-    QGridLayout* mainLayout = new QGridLayout();
+    mainLayout = new QGridLayout();
+    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    setMaximumHeight(100);
+
     for(int i = 0; i < height_widget; i++){
         QVector <QLCDNumber*> temp_vec_QLCD;
         for (int j = 0; j < width_widget; j++) {
             QString name = QString::number(i) + '.' + QString::number(j);
             QLCDNumber* temp_lcd = new QLCDNumber;
-            temp_lcd->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+            temp_lcd->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
             temp_lcd->setDigitCount(3);
             temp_lcd->setObjectName(name);
-            temp_lcd->resize(30,30);
+            //temp_lcd->resize(30,30);
+            temp_lcd->setMaximumHeight(60);
             temp_lcd->setWindowFlag(Qt::ToolTip);
             temp_lcd->setSegmentStyle(QLCDNumber::Flat);
             temp_vec_QLCD.push_back(temp_lcd);
@@ -26,7 +30,7 @@ MatrixDisplayWidget::MatrixDisplayWidget(Matrix dis_Matrix ,QWidget *parent) : Q
     }
     mainLayout->setMargin(0);
     setLayout(mainLayout);
-    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
 }
 
 void MatrixDisplayWidget::resizeWidget(Matrix new_Matrix)
@@ -43,16 +47,20 @@ void MatrixDisplayWidget::resizeWidget(Matrix new_Matrix)
     height_widget = new_Matrix.getHeight();
     width_widget = new_Matrix.getWidth();
 
+    delete mainLayout;
     mainLayout = new QGridLayout();
+    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    setMaximumHeight(100);
     for(int i = 0; i < new_Matrix.getHeight(); i++){
         QVector <QLCDNumber*> temp_vec_QLCD;
         for (int j = 0; j < new_Matrix.getWidth(); j++) {
             QString name = QString::number(i) + '.' + QString::number(j);
             QLCDNumber* temp_lcd = new QLCDNumber;
-            temp_lcd->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+            temp_lcd->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
             temp_lcd->setDigitCount(3);
             temp_lcd->setObjectName(name);
-            temp_lcd->resize(30,30);
+            //temp_lcd->resize(30,30);
+            temp_lcd->setMaximumHeight(60);
             temp_lcd->setWindowFlag(Qt::ToolTip);
             temp_lcd->setSegmentStyle(QLCDNumber::Flat);
             temp_vec_QLCD.push_back(temp_lcd);
@@ -64,7 +72,7 @@ void MatrixDisplayWidget::resizeWidget(Matrix new_Matrix)
 
     mainLayout->setMargin(0);
     setLayout(mainLayout);
-    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
 }
 
 void MatrixDisplayWidget::updateState()
@@ -78,7 +86,7 @@ void MatrixDisplayWidget::updateState()
 
 void MatrixDisplayWidget::display(Matrix dis_Matrix)
 {
-    if(dis_Matrix.getHeight() == actualWidgetMatrix.getHeight() &&
+    if(dis_Matrix.getHeight() == actualWidgetMatrix.getHeight() ||
        dis_Matrix.getWidth() == actualWidgetMatrix.getHeight())
     {
         actualWidgetMatrix = dis_Matrix;
@@ -87,6 +95,7 @@ void MatrixDisplayWidget::display(Matrix dis_Matrix)
     else
     {
         resizeWidget(dis_Matrix);
+        actualWidgetMatrix = dis_Matrix;
         updateState();
     }
 }
@@ -100,9 +109,10 @@ void MatrixDisplayWidget::_updateMatrix(Matrix new_Matrix)
 {
     if(new_Matrix != actualWidgetMatrix)
     {
-        if(new_Matrix.getHeight() != height_widget && new_Matrix.getWidth() != width_widget)
+        if(new_Matrix.getHeight() != height_widget || new_Matrix.getWidth() != width_widget)
         {
             resizeWidget(new_Matrix);
+            actualWidgetMatrix = new_Matrix;
             updateState();
         }
         else

@@ -109,6 +109,18 @@ Matrix &Matrix::operator *(int value)
     return *this;
 }
 
+Matrix &Matrix::operator ^(int value)
+{
+    if(m_height == m_width)
+    {
+        Matrix clone(m_Matrix,m_name);
+        for(int i = 0; i < value - 1; i++){
+            this->operator*(clone);
+        }
+    }
+    return *this;
+}
+
 Matrix &Matrix::operator +(Matrix second_Matrix)
 {
     if(m_width == second_Matrix.m_width && m_height == second_Matrix.m_height)
@@ -149,16 +161,18 @@ Matrix &Matrix::operator *(Matrix second_Matrix)
             QVector<int> temp_vec;
             for(int j = 0; j < second_Matrix.m_width; j++)
             {
+                int a = 0;
                 for (int k = 0; k < m_width; k++)
                 {
-                    temp_vec.push_back(m_Matrix[i][k] * second_Matrix.m_Matrix[k][j]);
+                    a += m_Matrix[i][k] * second_Matrix.m_Matrix[k][j];
                 }
+                temp_vec.push_back(a);
             }
             temp_m.push_back(temp_vec);
         }
         m_Matrix = temp_m;
-        m_height = m_Matrix[0].size();
-        m_width = m_Matrix.size();
+        m_height = m_Matrix.size();
+        m_width = m_Matrix[0].size();
     }
     return *this;
 }
