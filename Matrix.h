@@ -2,6 +2,7 @@
 #define MATRIX_H
 
 #include <QVector>
+#include <math.h>
 
 class Matrix
 {
@@ -18,6 +19,8 @@ public:
     int getHeight();
     int getWidth();
 
+    double determinant();
+    void transpose();
     Matrix & operator = (const Matrix second_Matrix);
     Matrix & operator + (int value);
     Matrix & operator - (int value);

@@ -29,6 +29,7 @@ MatrixDisplayWidget::MatrixDisplayWidget(Matrix dis_Matrix ,QWidget *parent) : Q
         matrix_LCDn.push_back(temp_vec_QLCD);
     }
     mainLayout->setMargin(0);
+    mainLayout->setSpacing(0);
     setLayout(mainLayout);
 
 }
@@ -71,6 +72,7 @@ void MatrixDisplayWidget::resizeWidget(Matrix new_Matrix)
     }
 
     mainLayout->setMargin(0);
+    mainLayout->setSpacing(0);
     setLayout(mainLayout);
 
 }

@@ -1,5 +1,7 @@
 #include "Matrix.h"
 
+double determ(QVector<QVector<int>> Arr, int size);
+
 Matrix::Matrix()
 {
     m_name = "default";
@@ -49,7 +51,7 @@ void Matrix::setName(QString name)
 {
     m_name = name;
 }
-QVector<QVector<int> > Matrix::getVecMatrix()
+QVector<QVector<int>> Matrix::getVecMatrix()
 {
     return  m_Matrix;
 }
@@ -64,6 +66,26 @@ int Matrix::getHeight()
 int Matrix::getWidth()
 {
     return m_width;
+}
+
+double Matrix::determinant()
+{
+    double result = determ(m_Matrix,m_height);
+    return result;
+}
+
+void Matrix::transpose()
+{
+    QVector<QVector<int>> tempM;
+    for(int i = 0; i < m_width; i++){
+        QVector<int> tempV;
+        for(int j = 0; j < m_height; j++){
+            tempV.push_back(m_Matrix[j][i]);
+        }
+        tempM.push_back(tempV);
+    }
+    m_Matrix = tempM;
+    std::swap(m_width, m_height);
 }
 
 Matrix & Matrix::operator = (const Matrix second_Matrix)
@@ -204,4 +226,33 @@ QVector<int> &Matrix::operator [](int index)
     return m_Matrix[index];
 }
 
+double determ(QVector<QVector<int>> Arr, int size)
+{
+        int i,j;
+        double det=0;
+        if(size==1)
+        {
+                det=Arr[0][0];
+        }
+        else if(size==2)
+        {
+                det=Arr[0][0]*Arr[1][1]-Arr[0][1]*Arr[1][0];
+        }
+        else
+        {
+                QVector<QVector<int>>matr(size-1);
+                for(i=0;i<size;++i)
+                {
+                        for(j=0;j<size-1;++j)
+                        {
+                                if(j<i)
+                                        matr[j]=Arr[j];
+                                else
+                                        matr[j]=Arr[j+1];
+                        }
+                        det+=pow((double)-1, (i+j))*determ(matr, size-1)*Arr[i][size-1];
+                }
+        }
+        return det;
+}
 

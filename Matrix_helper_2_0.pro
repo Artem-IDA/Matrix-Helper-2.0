@@ -25,6 +25,7 @@ SOURCES += \
     MyTabBar.cpp \
     MyToolBox.cpp \
     NewTabDialog.cpp \
+    ResultDisplay.cpp \
     main.cpp \
 
 HEADERS += \
@@ -36,7 +37,8 @@ HEADERS += \
     MyTab.h \
     MyTabBar.h \
     MyToolBox.h \
-    NewTabDialog.h
+    NewTabDialog.h \
+    ResultDisplay.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

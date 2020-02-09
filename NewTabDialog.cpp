@@ -5,8 +5,8 @@ NewTabDialog::NewTabDialog(QWidget *parent) : QDialog(parent)
     lineEdit = new QLineEdit("Enter name of matrix");
     heightSB = new QSpinBox;
     widthSB = new QSpinBox;
-    heightSB->setRange(1,9);
-    widthSB->setRange(1,9);
+    heightSB->setRange(2,9);
+    widthSB->setRange(2,9);
 
     QLabel *heightLabel = new QLabel("Enter height:");
     QLabel *widthLabel = new QLabel("Enter width:");

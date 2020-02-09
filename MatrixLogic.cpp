@@ -50,6 +50,20 @@ void MatrixLogic::_queryBinaryOperation(QString nameFirstMatrix, QString operati
     }
 }
 
+void MatrixLogic::_queryOtherOperation(QString nameFirstMatrix, QString operation)
+{
+    emit _requestFirstMatrix(nameFirstMatrix);
+    if(operation == "D{}_OTHER"){
+        resultNum = gettingMatrix_1.determinant();
+        QString result = "Детерминант матрицы равен " + QString::number(resultNum);
+        emit _sendResultNum(result);
+    }
+    else if(operation == "T{}_OTHER"){
+        gettingMatrix_1.transpose();
+        emit _sendResultMatrix(gettingMatrix_1);
+    }
+}
+
 void MatrixLogic::_catchFirstMatrix(Matrix matrix)
 {
     gettingMatrix_1 = matrix;

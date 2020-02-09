@@ -26,6 +26,7 @@ private:
 signals:
     void _requestUnaryOperation(QString nameFirstMatrix, QString operation, int value);
     void _requestBinaryOperation(QString nameFirstMatrix, QString operation, QString nameSecondMatrix);
+    void _requestOtherOperation(QString nameFirstMatrix, QString operation);
     void _requestMatrixNames();
     void _requestActiveMatrixName();
     void _cleanComboBox();

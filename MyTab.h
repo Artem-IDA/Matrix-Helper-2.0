@@ -12,7 +12,6 @@ class MyTab : public QWidget
     Q_OBJECT
 public:
     MyTab(int index, int height_matrix, int width_matrix, QString name_matrix, QWidget *parent = nullptr);
-    void swapM_Widgets();
 
     void setNewMatrix(Matrix newMatrix);
 
@@ -22,16 +21,18 @@ public:
 
     QSize sizeHint() const;
 private:
-    int swapCount;
-
     Matrix tab_Matrix;
     int index_Tab;
+    QPushButton *modeBut;
+    QPushButton *okBut;
     MatrixInWidget *matInWidget;
     MatrixDisplayWidget *matDisWidget;
 signals:
     void _sendMatrix(Matrix tab_matrix);
 public slots:
     void _catchMatrix(Matrix tab_matrix);
+    void _OKClicked();
+    void _ModeClicked();
 };
 
 #endif // MYTAB_H

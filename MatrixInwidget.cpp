@@ -111,14 +111,13 @@ void MatrixInWidget::_updateMatrix(Matrix new_Matrix)
             resizeWidget(new_Matrix);
             In_matrix = new_Matrix;
             updateState();
+            emit _sendMatrix(new_Matrix);
         }
         else
         {
             In_matrix = new_Matrix;
             updateState();
         }
-        if(new_Matrix != In_matrix)
-        emit _sendMatrix(new_Matrix);
     }
 }
 

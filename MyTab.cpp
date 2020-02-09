@@ -2,9 +2,13 @@
 
 MyTab::MyTab(int index, int height_matrix, int width_matrix, QString name_matrix, QWidget *parent) : QWidget(parent)
 {
-    swapCount = 1;
     index_Tab = index;
     tab_Matrix = Matrix(height_matrix,width_matrix,name_matrix);
+    modeBut = new QPushButton("Editing");
+    modeBut->hide();
+    modeBut->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    okBut = new QPushButton("OK");
+    okBut->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     matInWidget = new MatrixInWidget(tab_Matrix);
     matInWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     matDisWidget = new MatrixDisplayWidget(tab_Matrix);
@@ -18,6 +22,11 @@ MyTab::MyTab(int index, int height_matrix, int width_matrix, QString name_matrix
     connect(matInWidget,SIGNAL(_sendMatrix(Matrix)),
             this,SLOT(_catchMatrix(Matrix)));
 
+    connect(okBut,SIGNAL(clicked()),
+            this,SLOT(_OKClicked()));
+    connect(modeBut,SIGNAL(clicked()),
+            this,SLOT(_ModeClicked()));
+
     //                  this
     //                   |↑
     //                   ||  matrix
@@ -25,26 +34,17 @@ MyTab::MyTab(int index, int height_matrix, int width_matrix, QString name_matrix
     //                matInWgt --> matDisWgt
 
     QGridLayout *mainLay = new QGridLayout;
+    mainLay->addWidget(modeBut,1,0);
+    mainLay->addWidget(okBut,1,0);
     mainLay->addWidget(matInWidget,0,0);
     mainLay->addWidget(matDisWidget,0,0);
+    mainLay->setAlignment(modeBut,Qt::AlignCenter);
+    mainLay->setAlignment(okBut,Qt::AlignCenter);
+    mainLay->setMargin(1);
+    mainLay->setSpacing(1);
 
     setLayout(mainLay);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-}
-
-void MyTab::swapM_Widgets()
-{
-    if(swapCount%2 == 0)
-    {
-        matDisWidget->show();
-        matInWidget->hide();
-    }
-    else
-    {
-        matDisWidget->hide();
-        matInWidget->show();
-    }
-    swapCount++;
 }
 
 void MyTab::setNewMatrix(Matrix newMatrix)
@@ -80,4 +80,20 @@ void MyTab::_catchMatrix(Matrix new_Matrix)
         tab_Matrix = new_Matrix;
         emit _sendMatrix(tab_Matrix);
     }
+}
+
+void MyTab::_OKClicked()
+{
+    matDisWidget->show();
+    okBut->hide();
+    matInWidget->hide();
+    modeBut->show();
+}
+
+void MyTab::_ModeClicked()
+{
+    matDisWidget->hide();
+    okBut->show();
+    matInWidget->show();
+    modeBut->hide();
 }
