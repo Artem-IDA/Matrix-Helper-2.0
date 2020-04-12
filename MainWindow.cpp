@@ -22,8 +22,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     MenuBar->addMenu(file);
     MenuBar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    //resize(1920,1080);
-    //setMinimumSize(600,600);
+    setFixedSize(300,300);
     mainLay = new QGridLayout;
 
     mainLay->addWidget(MenuBar);
@@ -70,6 +69,11 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     connect(TabBar,SIGNAL(_sendSecondMatrix(Matrix)),
             Logic,SLOT(_catchSecondMatrix(Matrix)));
 
+    connect(ToolBox,SIGNAL(_requestUnaryOperation(QString, QString, int)),
+            this,SLOT(_closeOtherResult()));
+    connect(ToolBox,SIGNAL(_requestBinaryOperation(QString, QString, QString)),
+            this,SLOT(_closeOtherResult()));
+
     connect(Logic,SIGNAL(_sendResultMatrix(Matrix)),
             TabBar,SLOT(_catchResultMatrix(Matrix)));
 
@@ -92,6 +96,7 @@ void MainWindow::_addingNewTab()
 
 void MainWindow::_closeOtherResult()
 {
+    resultDis->hide();
     mainLay->removeWidget(resultDis);
 }
 
